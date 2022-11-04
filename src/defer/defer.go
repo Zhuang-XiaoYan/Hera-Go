@@ -2,60 +2,80 @@ package main
 
 import "fmt"
 
-// 函数就是一段代码的封装 这样可以重用
-func sum(x int, y int) (ret int) {
-	return x + y
+func deferdemo() {
+	fmt.Println("start print")
+	fmt.Println("hahaha")
+	fmt.Println("end print")
+	fmt.Println("-----------------------------------------------------------")
+	fmt.Println("start print")
+	defer fmt.Println("hahaha") // defer 把这个的语句延迟到函数的即将返回的时候在执行
+	fmt.Println("end print")
+	fmt.Println("-----------------------------------------------------------")
+	fmt.Println("start print")
+	defer fmt.Println("001") // Go语言中的defer语句会将其后面跟随的语句进行延迟处理。在defer归属的函数即将返回时，
+	defer fmt.Println("002") // 将延迟处理的语句按defer定义的逆序进行执行，也就是说，先被defer的语句最后被执行，最后被defer的语句，最先被执行。
+	defer fmt.Println("003") // defer 多用于函数之前释放资源
+	fmt.Println("end print")
 }
 
-func sum1(x int, y int) {
-	fmt.Println(x + y + 10)
-	fmt.Println("没有返回值")
+func f1() int {
+	x := 5
+	defer func() {
+		x++
+	}()
+	return x
 }
 
-// 没有参数的 但是有返回值  返回值的可与没有名
-func sum2() int {
-	return 0
+// 要求返回的x的值
+func f2() (x int) {
+	defer func() {
+		x++
+	}()
+	return 5
 }
 
-func f3() int {
-	res := 2
-	return res
+func f3() (y int) {
+	x := 5
+	defer func() {
+		x++ // 修改的是x
+	}()
+	return x
 }
 
-func f4(x int, y int) (res int) {
-	res = x * y
-	return // 使用的命名的返回值可以省略
+func f4() (x int) {
+	defer func(x int) {
+		x++
+	}(x)
+	return 5
 }
 
-func f5() (int, int) {
-	return 10, 8
-}
-
-func f6(x, y, z int) (a, b int) {
-	return x + y, y * z
-}
-
-// 当参数中的连续多个参数的类型的一致性的 我可以将非最后一个的参数类型的省略
-func f7(x, y, z int, s1, s2 string) (a, b int) {
-	return x + y, y * z
-}
-
-// 可边长的参数必须放在函数的最后面
-func f8(x string, y ...int) {
-	fmt.Println(x)
-	fmt.Println(y) // y类型的切片
-}
+// 全局作用域
+var a = 10
 
 func main() {
-	// 函数的定义
-	fmt.Println(sum(1, 2))
-	sum1(1, 4)
-	fmt.Println(sum2())
-	_, x := f5()
-	fmt.Println(x)
-	x1, x2 := f6(3, 5, 7)
-	fmt.Println(x1, x2)
+	// defer
+	// deferdemo()
+	// go语言中的的函数return 不是原子的操作 而是在底层分两步来执行的操作的
+	// 第一步;返回函数值
+	// 第二步：真正的ret返回
+	// 如果函数存在defer 那么执行defer的实际就是在第一步和第二步之间
+	fmt.Println(f1())
+	fmt.Println(f2())
+	fmt.Println(f3())
+	fmt.Println(f4())
 
-	f8("xjl", 6, 7)
-	f8("xjl")
+	fmt.Println("--------------------------------")
+	// 函数的作用域的是的现在内部变量中查找
+	// 找不到的就往函数的外部查找 一直到全局查找
+	fmt.Println(a)
+
+	// 语句快的作用域
+	if i := 10; i < 18 {
+		fmt.Println(i)
+	}
+
+	for j := 0; j < 5; j++ {
+		fmt.Println(j)
+	}
+
 }
