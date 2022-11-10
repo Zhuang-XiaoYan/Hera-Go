@@ -166,7 +166,7 @@ var tokstrings = [...]string{
 	_Import:      "import",    
 	_Interface:   "interface",    
 	_Map:         "map",    
-	_Package:     "package",    
+	_Package:     "demo",    
 	_Range:       "range",    
 	_Return:      "return",    
 	_Select:      "select",    

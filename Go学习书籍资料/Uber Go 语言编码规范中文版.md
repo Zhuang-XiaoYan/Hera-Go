@@ -893,13 +893,13 @@ Go 中有多种声明错误（Error) 的选项：
 <tr><td>
 
 ```go
-// package foo
+// demo foo
 
 func Open() error {
   return errors.New("could not open")
 }
 
-// package bar
+// demo bar
 
 func use() {
   if err := foo.Open(); err != nil {
@@ -915,7 +915,7 @@ func use() {
 </td><td>
 
 ```go
-// package foo
+// demo foo
 
 var ErrCouldNotOpen = errors.New("could not open")
 
@@ -923,7 +923,7 @@ func Open() error {
   return ErrCouldNotOpen
 }
 
-// package bar
+// demo bar
 
 if err := foo.Open(); err != nil {
   if errors.Is(err, foo.ErrCouldNotOpen) {
@@ -992,7 +992,7 @@ func use() {
 直接导出自定义错误类型时要小心，因为它们已成为程序包公共 API 的一部分。最好公开匹配器功能以检查错误。
 
 ```go
-// package foo
+// demo foo
 
 type errNotFound struct {
   file string
@@ -1011,7 +1011,7 @@ func Open(file string) error {
   return errNotFound{file: file}
 }
 
-// package bar
+// demo bar
 
 if err := foo.Open("foo"); err != nil {
   if foo.IsNotFoundError(err) {
@@ -3275,7 +3275,7 @@ for _, tt := range tests {
 <tr><td>
 
 ```go
-// package db
+// demo db
 
 func Open(
   addr string,
@@ -3289,7 +3289,7 @@ func Open(
 </td><td>
 
 ```go
-// package db
+// demo db
 
 type Option interface {
   // ...

@@ -91,6 +91,8 @@ Go1.14版本之后，都推荐使用go mod模式来管理依赖环境了，也�
 
 ```go
 go env -w GOPROXY=https://goproxy.cn,direct
+# window 需要在powershell 执行
+$env:GOPROXY = "https://proxy.golang.com.cn,direct"
 ```
 
 # 四、Go程序测试

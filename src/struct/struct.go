@@ -26,6 +26,14 @@ type person struct {
 	gender string
 }
 
+// 构造函数 返回的结构体还是结构体指针 当结构体比较大的时候 最好使用的返回的结构体指针：func newPerson(name, gender string) *person
+func newPerson(name, gender string) person {
+	return person{
+		name:   name,
+		gender: gender,
+	}
+}
+
 // go语言中的函数永远都海拷贝 不会影响原理的值
 func f(p person) {
 	p.name = "xiaoling"
@@ -36,6 +44,12 @@ func f(p person) {
 func f2(p *person) {
 	p.name = "xiaoling"
 	fmt.Println(p.name)
+}
+
+type x struct {
+	a int8
+	b int8
+	c string
 }
 
 func main() {
@@ -105,5 +119,18 @@ func main() {
 	p2.name = "xiaoyan"       // 相当于是(*p2).name="xiaoyan" 不过是一种语法糖
 	fmt.Printf("%T\n", p2)    //*main.person
 	fmt.Printf("p2=%p\n", p2) //p2=&main.person{name:"", city:"", age:0}
+
+	fmt.Println("----------------------内存空间-------------------------------------------")
+	m := x{
+		a: int8(10),
+		b: int8(20),
+		c: "庄小焱",
+	}
+
+	fmt.Printf("%p\n", &(m.a))
+	fmt.Printf("%p\n", &(m.b))
+	fmt.Printf("%p\n", &(m.c))
+
+	// 内存对齐的原理
 
 }
