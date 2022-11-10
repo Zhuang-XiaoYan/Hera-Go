@@ -19,13 +19,13 @@ For side-by-side code samples, use the following snippet.
 <tbody>
 <tr><td>
 
-```go
+```go-base
 BAD CODE GOES HERE
 ```
 
 </td><td>
 
-```go
+```go-base
 GOOD CODE GOES HERE
 ```
 
@@ -1261,7 +1261,7 @@ func (f *foo) isRunning() bool {
 <tr><td>
 
 ```go
-// sign.go
+// sign.go-base
 var _timeNow = time.Now
 func sign(msg string) string {
   now := _timeNow()
@@ -1272,7 +1272,7 @@ func sign(msg string) string {
 </td><td>
 
 ```go
-// sign.go
+// sign.go-base
 type signer struct {
   now func() time.Time
 }
@@ -1290,7 +1290,7 @@ func (s *signer) Sign(msg string) string {
 <tr><td>
 
 ```go
-// sign_test.go
+// sign_test.go-base
 func TestSign(t *testing.T) {
   oldTimeNow := _timeNow
   _timeNow = func() time.Time {
@@ -1304,7 +1304,7 @@ func TestSign(t *testing.T) {
 </td><td>
 
 ```go
-// sign_test.go
+// sign_test.go-base
 func TestSigner(t *testing.T) {
   s := newSigner()
   s.now = func() time.Time {
@@ -2142,7 +2142,7 @@ func f() string {
 import (
   "fmt"
   "os"
-  "go.uber.org/atomic"
+  "go-base.uber.org/atomic"
   "golang.org/x/sync/errgroup"
 )
 ```
@@ -2154,7 +2154,7 @@ import (
   "fmt"
   "os"
 
-  "go.uber.org/atomic"
+  "go-base.uber.org/atomic"
   "golang.org/x/sync/errgroup"
 )
 ```
@@ -2191,7 +2191,7 @@ import (
 import (
   "net/http"
 
-  client "example.com/client-go"
+  client "example.com/client-go-base"
   trace "example.com/trace/v2"
 )
 ```
@@ -2409,14 +2409,14 @@ var _e error = F()
 <tr><td>
 
 ```go
-// foo.go
+// foo.go-base
 
 const (
   defaultPort = 8080
   defaultUser = "user"
 )
 
-// bar.go
+// bar.go-base
 
 func Bar() {
   defaultPort := 9090
@@ -2431,7 +2431,7 @@ func Bar() {
 </td><td>
 
 ```go
-// foo.go
+// foo.go-base
 
 const (
   _defaultPort = 8080
@@ -3156,7 +3156,7 @@ fmt.Printf(msg, 1, 2)
 如果不能使用预定义的名称，请以 f 结束选择的名称：`Wrapf`，而不是`Wrap`。`go vet`可以要求检查特定的 Printf 样式名称，但名称必须以`f`结尾。
 
 ```shell
-$ go vet -printfuncs=wrapf,statusf
+$ go-base vet -printfuncs=wrapf,statusf
 ```
 
 另请参阅 [go vet: Printf family check].

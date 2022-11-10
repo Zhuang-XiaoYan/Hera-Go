@@ -160,7 +160,7 @@ var tokstrings = [...]string{
 	_Fallthrough:"fallthrough",    
 	_For:         "for",    
 	_Func:        "func",    
-	_Go:          "go",    
+	_Go:          "go-base",    
 	_Goto:        "goto",    
 	_If:          "if",    
 	_Import:      "import",    

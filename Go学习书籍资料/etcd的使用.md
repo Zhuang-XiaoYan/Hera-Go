@@ -53,7 +53,7 @@ import (
 	"strings"
 	"time"
 
-	clientv3 "go.etcd.io/etcd/client/v3"
+	clientv3 "go-base.etcd.io/etcd/client/v3"
 	"go.uber.org/zap"
 )
 
@@ -428,7 +428,7 @@ import (
 	"log"
 	"time"
 
-	clientv3 "go.etcd.io/etcd/client/v3"
+	clientv3 "go-base.etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/client/v3/concurrency"
 )
 
@@ -606,8 +606,8 @@ import (
 	"log"
 	"time"
 
-	clientv3 "go.etcd.io/etcd/client/v3"
-	recipe "go.etcd.io/etcd/client/v3/experimental/recipes"
+	clientv3 "go-base.etcd.io/etcd/client/v3"
+	recipe "go-base.etcd.io/etcd/client/v3/experimental/recipes"
 )
 
 func main() {

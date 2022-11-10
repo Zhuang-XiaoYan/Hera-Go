@@ -52,7 +52,7 @@ tar -zxvf go1.14.1.linux-amd64.tar.gz -C /usr/local  # 解压
 根据自己的情况自行选择一个文件打开，添加如下两行代码，保存退出。
 
 ```shell
-export GOROOT=/usr/local/go
+export GOROOT=/usr/local/go-base
 export PATH=$PATH:$GOROOT/bin
 ```
 
@@ -176,15 +176,15 @@ SET GOARCH=amd64  // 目标处理器架构是amd64
 Mac 下编译 Linux 和 Windows平台 64位 可执行程序：
 
 ```shell
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go-base build
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go-base build
 ```
 
 Linux 下编译 Mac 和 Windows 平台64位可执行程序：
 
 ```shell
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go-base build
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go-base build
 ```
 
 Windows下编译Mac平台64位可执行程序：
@@ -193,7 +193,7 @@ Windows下编译Mac平台64位可执行程序：
 SET CGO_ENABLED=0
 SET GOOS=darwin
 SET GOARCH=amd64
-go build
+go-base build
 ```
 
 现在，开启你的Go语言学习之旅吧。人生苦短，let’s Go

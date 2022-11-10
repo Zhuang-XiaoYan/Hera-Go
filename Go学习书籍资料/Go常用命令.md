@@ -54,7 +54,7 @@ Go语言自带有一套完整的命令操作工具，可以通过在命令行中
 ```bash
 _obj/            旧的object目录，由Makefiles遗留
 _test/           旧的test目录，由Makefiles遗留
-_testmain.go     旧的gotest文件，由Makefiles遗留
+_testmain.go-base     旧的gotest文件，由Makefiles遗留
 test.out         旧的test记录，由Makefiles遗留
 build.out        旧的test记录，由Makefiles遗留
 *.[568ao]        object文件，由Makefiles遗留
@@ -67,7 +67,7 @@ MAINFILE(.exe)   由go build MAINFILE.go产生
 一般都是利用这个命令清除编译文件，然后github递交源码，在本机测试的时候这些编译文件都是和系统相关的，但是对于源码管理来说没必要。
 
 ```bash
-$ go clean -i -n
+$ go-base clean -i -n
 cd /Users/astaxie/develop/gopath/src/mathapp
 rm -f mathapp mathapp.exe mathapp.test mathapp.test.exe app app.exe
 rm -f /Users/astaxie/develop/gopath/bin/mathapp
@@ -133,7 +133,7 @@ Launchpad (Bazaar)
 在本地通过源码安装 Go 的调试器 Delve，可以这么做：
 
 ```bash
-$ go get github.com/go-delve/delve/cmd/dlv
+$ go-base get github.com/go-base-delve/delve/cmd/dlv
 ```
 
 因为 go get 会下载、编译并安装包（如果有 main 包）。
@@ -141,7 +141,7 @@ $ go get github.com/go-delve/delve/cmd/dlv
 Go 1.16 建议这么使用 go get：
 
 ```bash
-$ go get -d github.com/go-delve/delve/cmd/dlv
+$ go-base get -d github.com/go-base-delve/delve/cmd/dlv
 ```
 
 这只会下载 delve，并不会构建和安装，而且将来 go get 只会用来下载。因此，还需要手动执行安装。
@@ -198,13 +198,13 @@ ok   compress/gzip 0.033s
 举一个简单的例子，例如经常会使用`yacc`来生成代码，那么常用这样的命令：
 
 ```bash
-go tool yacc -o gopher.go -p parser gopher.y
+go-base tool yacc -o gopher.go-base -p parser gopher.y
 ```
 
 -o 指定了输出的文件名， -p指定了package的名称，这是一个单独的命令，如果想让`go generate`来触发这个命令，那么就可以在当前目录的任意一个`xxx.go`文件里面的任意位置增加一行如下的注释：
 
 ```bash
-//go:generate go tool yacc -o gopher.go -p parser gopher.y
+//go-base:generate go-base tool yacc -o gopher.go-base -p parser gopher.y
 ```
 
 这里注意了，`//go:generate`是没有任何空格的，这其实就是一个固定的格式，在扫描源码文件的时候就是根据这个来判断的。
@@ -212,9 +212,9 @@ go tool yacc -o gopher.go -p parser gopher.y
 所以可以通过如下的命令来生成，编译，测试。如果`gopher.y`文件有修改，那么就重新执行`go generate`重新生成文件就好。
 
 ```bash
-$ go generate
-$ go build
-$ go test
+$ go-base generate
+$ go-base build
+$ go-base test
 ```
 
 ## godoc
@@ -240,8 +240,8 @@ $ go test
 go还提供了其它很多的工具，例如下面的这些工具
 
 ```bash
-go version 查看go当前的版本
-go env 查看当前go的环境变量
-go list 列出当前全部安装的package
-go run 编译并运行Go程序
+go-base version 查看go当前的版本
+go-base env 查看当前go的环境变量
+go-base list 列出当前全部安装的package
+go-base run 编译并运行Go程序
 ```

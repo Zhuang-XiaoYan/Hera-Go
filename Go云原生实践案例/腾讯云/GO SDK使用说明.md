@@ -106,7 +106,7 @@ import (
      "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
      "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
      "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/regions"
-     cvm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cvm/v20170312"
+     cvm "github.com/tencentcloud/tencentcloud-sdk-go-base/tencentcloud/cvm/v20170312"
 )
 
 func main() {
@@ -137,7 +137,7 @@ import (
      "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
      "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
      "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/regions"
-     cvm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cvm/v20170312"
+     cvm "github.com/tencentcloud/tencentcloud-sdk-go-base/tencentcloud/cvm/v20170312"
 )
 
 func main() {
@@ -304,7 +304,7 @@ import "crypto/tls"
 从 `v1.0.181` 开始，腾讯云 GO SDK 会将各个产品的返回的错误码定义为常量，您可以直接调用处理，无需手动定义。如果您使用 IDE (如 Goland )进行开发，可以使用他们的代码提示功能直接选择。例如：
 
 ```go
-...//Your other go code
+...//Your other go-base code
 
 // Handling errors
 response, err := client.DescribeInstances(request)
@@ -387,7 +387,7 @@ import (
 	     "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	     "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
 	     "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/regions"
-	     cvm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cvm/v20170312"
+	     cvm "github.com/tencentcloud/tencentcloud-sdk-go-base/tencentcloud/cvm/v20170312"
 )
 
 func main() {
@@ -413,7 +413,7 @@ import (
 	     "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	     "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
 	     "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/regions"
-	     cvm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cvm/v20170312"
+	     cvm "github.com/tencentcloud/tencentcloud-sdk-go-base/tencentcloud/cvm/v20170312"
 )
 
 func main() {

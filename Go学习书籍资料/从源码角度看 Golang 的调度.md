@@ -86,7 +86,7 @@ G0 是什么？G 分三种，第一种是执行用户任务的叫做 G，第二�
 这里实质只做了一件事情，就是获取 CPU 的线程数，也就是 Top 命令里看到的 CPU0、CPU1、CPU2…的数量。
 
 ```go
-// runtime/os_linux.go
+// runtime/os_linux.go-base
 
 func osinit() {
   ncpu = getproccount()
@@ -97,7 +97,7 @@ func osinit() {
 ## 2.2 runtime.schedinit(SB)调度相关的一些初始化
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 // 设置最大M数量
 sched.maxmcount = 10000
@@ -130,7 +130,7 @@ procresize 初始化 P 的数量，procs 参数为初始化的数量，而在初
 ## 2.3 runtime·mainPC(SB)启动监控任务
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 // The main goroutine.
 func main() {
@@ -169,7 +169,7 @@ M 即启动后处于一个自循环状态，执行完一个 G 之后继续执行
 先看一下 M 的启动过程（M0 启动是个特殊的启动过程，也是第一个启动的 M，由汇编实现的初始化后启动，而后续的 M 创建以及启动则是 Go 代码实现）。
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func startm(_p_ *p, spinning bool) {
   lock(&sched.lock)
@@ -214,7 +214,7 @@ func newm(fn func(), _p_ *p) {
   execLock.runlock()
 }
 
-// runtime/os_linux.go
+// runtime/os_linux.go-base
 func newosproc(mp *m, stk unsafe.Pointer) {
   // Disable signals during clone, so that the new thread starts
   // with signals disabled. It will enable them in minit.
@@ -274,7 +274,7 @@ newm 方法中通过 newosproc 新建一个内核线程，并把内核线程与 
 调用 schedule 进入调度器的调度循环后，在这个方法里永远不再返回。下面看下实现。
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func schedule() {
   _g_ := getg()
@@ -444,7 +444,7 @@ findrunnable 从全局队列、epoll、别的 P 里获取。(后面会扩展分�
 第 1 种途径实现如下：
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func runqput(_p_ *p, gp *g, next bool) {
   if randomizeScheduler && next && fastrand()%2 == 0 {
@@ -543,7 +543,7 @@ runqput 方法归还执行完的 G,runq 定义是 runq [256]guintptr，有固定
 第 2 种途径实现如下：
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 // 从其它地方获取G
 func findrunnable() (gp *g, inheritTime bool) {
@@ -568,7 +568,7 @@ func findrunnable() (gp *g, inheritTime bool) {
 从别的 P 里面"偷取"一些 G 过来执行了。runqsteal 方法实现了"偷取"操作。
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 // 偷取P2一半到本地运行队列，失败则返回nil
 func runqsteal(_p_, p2 *p, stealRunNextG bool) *g {
@@ -625,7 +625,7 @@ func runqgrab(_p_ *p, batch *[256]guintptr, batchHead uint32, stealRunNextG bool
 先看 G 如何被执行：
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func execute(gp *g, inheritTime bool) {
   _g_ := getg()
@@ -675,7 +675,7 @@ nilctxt: // 下面则是函数栈的BP SP指针移动，最后进入到指定的
 ```
 
 ```go
-// runtime/runtime2.go
+// runtime/runtime2.go-base
 
 type gobuf struct {
   // The offsets of sp, pc, and g are known to (hard-coded in) libmach.
@@ -706,7 +706,7 @@ C 语言里栈帧创建的时候有个 IP 寄存器指向"return address",即主
 
 ```go
 
-// runtime/proc.go
+// runtime/proc.go-base
 
 func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr) *g {
   ......
@@ -753,7 +753,7 @@ TEXT runtime·goexit(SB),NOSPLIT,$0-0
 ```
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 // G执行结束后回到这里放到P的本地队列里
 func goexit1() {
@@ -787,7 +787,7 @@ func goexit0(gp *g) {
 
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func gopark(unlockf func(*g, unsafe.Pointer) bool, lock unsafe.Pointer, reason string, traceEv byte, traceskip int) {
   mp := acquirem()
@@ -811,7 +811,7 @@ func gopark(unlockf func(*g, unsafe.Pointer) bool, lock unsafe.Pointer, reason s
 ```
 
 ```go
-// runtime/stubs.go
+// runtime/stubs.go-base
 
 // mcall switches from the g to the g0 stack and invokes fn(g),
 // where g is the goroutine that made the call.
@@ -821,7 +821,7 @@ func mcall(fn func(*g))
 ```
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func park_m(gp *g) {
   _g_ := getg() // 此处获得的是g0,而不是gp
@@ -864,7 +864,7 @@ gopark 是进行调度出让 CPU 资源的方法，里面有个方法 mcall()，
 回想在 runtime.main()里面有单独启动了一个监控任务，方法是 sysmon。看下该方法：
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func sysmon() {
   ......
@@ -954,7 +954,7 @@ func preemptone(_p_ *p) bool {
   // 标记抢占状态
   gp.preempt = true
 
-  // Every call in a go routine checks for stack overflow by
+  // Every call in a go-base routine checks for stack overflow by
   // comparing the current stack pointer to gp->stackguard0.
   // Setting gp->stackguard0 to StackPreempt folds
   // preemption into the normal stack overflow check.
@@ -969,7 +969,7 @@ func preemptone(_p_ *p) bool {
 sysmon() 方法处于无限 for 循环，整个进程的生命周期监控着。retake()方法每次对所有的 P 遍历检查超过 10ms 的还在运行的 G，如果有超过 10ms 的则通过 preemptone()进行抢占，但是要注意这里只把 gp.stackguard0 赋值了一个 stackPreempt，并没有做让出 CPU 的操作，因此这里的抢占实质只是一个”标记“抢占。那么真正停止 G 执行的操作在哪里？
 
 ```go
-// runtime/stack.go
+// runtime/stack.go-base
 
 func newstack(ctxt unsafe.Pointer) {
   ......
@@ -998,7 +998,7 @@ func newstack(ctxt unsafe.Pointer) {
 ```
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func goschedImpl(gp *g) {
   status := readgstatus(gp)
@@ -1027,7 +1027,7 @@ func goschedImpl(gp *g) {
 
 
 ```go
-// syscall/syscall_unix.go
+// syscall/syscall_unix.go-base
 
 func Syscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno)
 ```
@@ -1066,7 +1066,7 @@ ok:
 
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func entersyscall(dummy int32) {
   reentersyscall(getcallerpc(unsafe.Pointer(&dummy)), getcallersp(unsafe.Pointer(&dummy)))
@@ -1098,7 +1098,7 @@ func reentersyscall(pc, sp uintptr) {
 
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func exitsyscall(dummy int32) {
   ......
@@ -1147,7 +1147,7 @@ func exitsyscall0(gp *g) {
 
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func newproc(siz int32, fn *funcval) {
   argp := add(unsafe.Pointer(&fn), sys.PtrSize)
@@ -1206,7 +1206,7 @@ newproc1 方法中 gfget 先从空闲的 G 列表获取一个 G 对象，没有�
 
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func netpoll(block bool) *g {
   ......
@@ -1300,7 +1300,7 @@ func netpollunblock(pd *pollDesc, mode int32, ioready bool) *g {
 
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func sysmon() {
   ......
@@ -1355,7 +1355,7 @@ netpoll 返回的链表交给了 injectglist，然后其实是放到了全局 ru
 
 
 ```go
-// runtime/time.go
+// runtime/time.go-base
 
 func timeSleep(ns int64) {
   if ns <= 0 {
@@ -1378,7 +1378,7 @@ func timeSleep(ns int64) {
 
 
 
-// runtime/proc.go
+// runtime/proc.go-base
 
 func goparkunlock(lock *mutex, reason string, traceEv byte, traceskip int) {
   gopark(parkunlock_c, unsafe.Pointer(lock), reason, traceEv, traceskip)
@@ -1398,7 +1398,7 @@ timeSleep 函数里通过 addtimerLocked 把定时器加入到 timer 管理器�
 
 
 ```go
-// runtime/time.go
+// runtime/time.go-base
 
 func addtimerLocked(t *timer) {
   // when must never be negative; otherwise timerproc will overflow
@@ -1421,7 +1421,7 @@ func addtimerLocked(t *timer) {
 ```
 
 ```go
-// runtime/time.go
+// runtime/time.go-base
 
 // Timerproc runs the time-driven events.
 // It sleeps until the next event in the timers heap.
@@ -1485,7 +1485,7 @@ func timerproc() {
 
 
 ```go
-/// runtime/time.go
+/// runtime/time.go-base
 
 func goroutineReady(arg interface{}, seq uintptr) {
   goready(arg.(*g), 0)
@@ -1493,7 +1493,7 @@ func goroutineReady(arg interface{}, seq uintptr) {
 ```
 
 ```go
-// runtime/proc.go
+// runtime/proc.go-base
 
 func goready(gp *g, traceskip int) {
   systemstack(func() {
@@ -1532,7 +1532,7 @@ func ready(gp *g, traceskip int, next bool) {
 
 ## 6.2 sync.Mutex
 ```go
-// sync/mutex.go
+// sync/mutex.go-base
 
 func (m *Mutex) Lock() {
   // Fast path: grab unlocked mutex.
@@ -1593,7 +1593,7 @@ func (m *Mutex) Lock() {
 ```
 
 ```go
-// runtime/sema.go
+// runtime/sema.go-base
 
 func sync_runtime_Semacquire(addr *uint32) {
   semacquire1(addr, false, semaBlockProfile)
@@ -1606,7 +1606,7 @@ func semacquire1(addr *uint32, lifo bool, profile semaProfileFlags) {
     ......
     
     // Any semrelease after the cansemacquire knows we're waiting
-    // (we set nwait above), so go to sleep.
+    // (we set nwait above), so go-base to sleep.
     root.queue(addr, s, lifo)                                     // 把当前锁的信息存起来以便以后唤醒时找到当前G,G是在queue里面获取的。
     goparkunlock(&root.lock, "semacquire", traceEvGoBlockSync, 4) // 进行休眠，然后阻塞在这里
     if s.ticket != 0 || cansemacquire(addr) {
@@ -1643,7 +1643,7 @@ Mutex.Lock 方法通过调用 runtime_SemacquireMutex 最终还是调用 goparku
 
 
 ```go
-// sync/mutex.go
+// sync/mutex.go-base
 
 func (m *Mutex) Unlock() {
   ......
@@ -1670,7 +1670,7 @@ func (m *Mutex) Unlock() {
 ```
 
 ```go
-// runtime/sema.go
+// runtime/sema.go-base
 
 func sync_runtime_Semrelease(addr *uint32, handoff bool) {
   semrelease1(addr, handoff)
@@ -1705,7 +1705,7 @@ Mutex. Unlock 方法通过调用 runtime_Semrelease 最终还是调用 goready �
 
 ## 6.3 channel
 ```go
-// runtime/chan.go
+// runtime/chan.go-base
 
 func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
   // 寻找一个等待中的receiver，直接把值传给这个receiver，绕过下面channel buffer，

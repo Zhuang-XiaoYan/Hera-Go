@@ -1564,7 +1564,7 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (*persistC
 - 如果有空闲连接，就拿空闲连接
 
 ```go
-// /src/net/http/tansport.go:810
+// /src/net/http/tansport.go-base:810
 func (t *Transport) getIdleConnCh(cm connectMethod) chan *persistConn {
     // 返回放空闲连接的chan
     ch, ok := t.idleConnCh[key]
@@ -1576,7 +1576,7 @@ func (t *Transport) getIdleConnCh(cm connectMethod) chan *persistConn {
 - 没有空闲连接，就创建长连接。
 
 ```go
-// /src/net/http/tansport.go:1357
+// /src/net/http/tansport.go-base:1357
 func (t *Transport) dialConn() {
   //...
   conn, err := t.dial(ctx, "tcp", cm.addr())
@@ -1624,7 +1624,7 @@ func (t *Transport) dial(ctx context.Context, network, addr string) (net.Conn, e
 这里面调用的设置超时，会执行到
 
 ```go
-// /src/net/net.go
+// /src/net/net.go-base
 func (c *conn) SetDeadline(t time.Time) error {
     //...
     c.fd.SetDeadline(t)
@@ -1640,7 +1640,7 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 }
 
 
-//go:linkname poll_runtime_pollSetDeadline internal/poll.runtime_pollSetDeadline
+//go-base:linkname poll_runtime_pollSetDeadline internal/poll.runtime_pollSetDeadline
 func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
     // ...
     // 设置一个定时器事件
@@ -1661,7 +1661,7 @@ func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
 直到3s过后，这时候看读goroutine，会等待网络数据返回。
 
 ```go
-// /src/net/http/tansport.go:1642
+// /src/net/http/tansport.go-base:1642
 func (pc *persistConn) readLoop() {
     //...
     for alive {
@@ -1693,7 +1693,7 @@ func (pc *persistConn) Read(p []byte) (n int, err error) {
     // ...
 }
 
-// /src/net/net.go: 173
+// /src/net/net.go-base: 173
 func (c *conn) Read(b []byte) (int, error) {
     // ...
     n, err := c.fd.Read(b)
@@ -1728,7 +1728,7 @@ func (pd *pollDesc) wait(mode int, isFile bool) error {
 直到跟到`runtime_pollWait`，这个可以简单认为是等待服务端数据返回。
 
 ```go
-//go:linkname poll_runtime_pollWait internal/poll.runtime_pollWait
+//go-base:linkname poll_runtime_pollWait internal/poll.runtime_pollWait
 func poll_runtime_pollWait(pd *pollDesc, mode int) int {
 
     // 1.如果网络正常返回数据就跳出

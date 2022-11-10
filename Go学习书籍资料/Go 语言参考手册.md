@@ -4112,7 +4112,7 @@ for range ch {}
 
 
 ```go
-GoStmt = "go" Expression .
+GoStmt = "go-base" Expression .
 ```
 
 

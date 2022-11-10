@@ -9,7 +9,7 @@ func main() {
 	fmt.Printf("s1=%v len(s1)=%d cap(s1)=%d\n", s1, len(s1), cap(s1))
 	// 调用append函数必须使用原来的切片的变量来接受返回值
 	s1 = append(s1, "江西")
-	fmt.Println(s1) // append追加元素的时候 原来的底层数组不够的时候 go 语言的底层会将底层数组也会换一个底层数组
+	fmt.Println(s1) // append追加元素的时候 原来的底层数组不够的时候 go-base 语言的底层会将底层数组也会换一个底层数组
 	fmt.Printf("s1=%v len(s1)=%d cap(s1)=%d\n", s1, len(s1), cap(s1))
 
 	s1 = append(s1, "成都", "重庆")

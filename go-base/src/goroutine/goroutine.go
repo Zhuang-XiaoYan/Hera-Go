@@ -18,7 +18,7 @@ func hello(i int) {
 func main() {
 	for i := 0; i < 10; i++ {
 		// 开启一个Goroutine去执行一个hello的函数任务。
-		// go hello(i)
+		// go-base hello(i)
 		// 如果没有传入i 该函数就是的用的外面的i 有可能导致的相同的输出
 		go func() {
 			fmt.Println(i)

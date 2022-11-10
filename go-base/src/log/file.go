@@ -117,7 +117,7 @@ func writeFile(path string) {
 	file.WriteString("hello 小王子") //直接写入字符串数据
 }
 
-//bufio.NewWriter 来实现文件的写入功能
+// bufio.NewWriter 来实现文件的写入功能
 func writeBuffIo() {
 	file, err := os.OpenFile("xx.txt", os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0666)
 	if err != nil {
@@ -161,7 +161,7 @@ func CopyFile(dstName, srcName string) (written int64, err error) {
 }
 
 func main() {
-	// var path = "D:\\gitee\\Hera-Go\\src\\log\\log.go"
+	// var path = "D:\\gitee\\Hera-Go\\src\\log\\log.go-base"
 	// baseReadFile(path)
 	//fmt.Println("-----------------------11-----------------------------")
 	//readFileByIoutil(path)

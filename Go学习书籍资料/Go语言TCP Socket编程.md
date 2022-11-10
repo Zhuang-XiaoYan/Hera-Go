@@ -8,7 +8,7 @@ Golang的主要 设计目标之一就是面向大规模后端服务程序，网�
 目前主流web server一般均采用的都是”Non-Block + I/O多路复用”（有的也结合了多线程、多进程）。不过I/O多路复用也给使用者带来了不小的复杂度，以至于后续出现了许多高性能的I/O多路复用框架， 比如libevent、libev、libuv等，以帮助开发者简化开发复杂性，降低心智负担。不过Go的设计者似乎认为I/O多路复用的这种通过回调机制割裂控制流 的方式依旧复杂，且有悖于“一般逻辑”设计，为此Go语言将该“复杂性”隐藏在Runtime中了：Go开发者无需关注socket是否是 non-block的，也无需亲自注册文件描述符的回调，只需在每个连接对应的goroutine中以“block I/O”的方式对待socket处理即可，这可以说大大降低了开发人员的心智负担。一个典型的Go server端程序大致如下：
 
 ```go
-//go-tcpsock/server.go
+//go-base-tcpsock/server.go-base
 func handleConn(c net.Conn) {
     defer c.Close()
     for {
@@ -69,7 +69,7 @@ if err != nil {
 如果传给Dial的Addr是可以立即判断出网络不可达，或者Addr中端口对应的服务没有启动，端口未被监听，Dial会几乎立即返回错误，比如：
 
 ```go
-//go-tcpsock/conn_establish/client1.go
+//go-base-tcpsock/conn_establish/client1.go-base
 ... ...
 func main() {
     log.Println("begin dial...")
@@ -94,7 +94,7 @@ $go run client1.go
 
 服务端代码：
 ```go
-//go-tcpsock/conn_establish/server2.go
+//go-base-tcpsock/conn_establish/server2.go-base
 ... ...
 func main() {
     l, err := net.Listen("tcp", ":8888")
@@ -119,7 +119,7 @@ func main() {
 ```
 客户端代码：
 ```go
-//go-tcpsock/conn_establish/client2.go
+//go-base-tcpsock/conn_establish/client2.go-base
 ... ...
 func establishConn(i int) net.Conn {
     conn, err := net.Dial("tcp", ":8888")
@@ -185,7 +185,7 @@ kern.ipc.somaxconn: 128
 
 在连接建立阶段，多数情况下，Dial是可以满足需求的，即便阻塞一小会儿。但对于某些程序而言，需要有严格的连接时间限定，如果一定时间内没能成功建立连接，程序可能会需要执行一段“异常”处理逻辑，为此我们就需要DialTimeout了。下面的例子将Dial的最长阻塞时间限制在2s内，超出这个时长，Dial将返回timeout error：
 ```go
-//go-tcpsock/conn_establish/client3.go
+//go-base-tcpsock/conn_establish/client3.go-base
 ... ...
 func main() {
     log.Println("begin dial...")
@@ -208,14 +208,14 @@ $go run client3.go
 # 三、Socket读写
 连接建立起来后，我们就要在conn上进行读写，以完成业务逻辑。前面说过Go runtime隐藏了I/O多路复用的复杂性。语言使用者只需采用goroutine+Block I/O的模式即可满足大部分场景需求。Dial成功后，方法返回一个net.Conn接口类型变量值，这个接口变量的动态类型为一个*TCPConn：
 ```go
-//$GOROOT/src/net/tcpsock_posix.go
+//$GOROOT/src/net/tcpsock_posix.go-base
 type TCPConn struct {
     conn
 }
 ```
 TCPConn内嵌了一个unexported类型：conn，因此TCPConn”继承”了conn的Read和Write方法，后续通过Dial返回值调用的Write和Read方法均是net.conn的方法：
 ```go
-//$GOROOT/src/net/net.go
+//$GOROOT/src/net/net.go-base
 type conn struct {
     fd *netFD
 }
@@ -260,11 +260,11 @@ func (c *conn) Write(b []byte) (int, error) {
 
 Client端：
 ```go
-//go-tcpsock/read_write/client2.go
+//go-base-tcpsock/read_write/client2.go-base
 ... ...
 func main() {
     if len(os.Args) <= 1 {
-        fmt.Println("usage: go run client2.go YOUR_CONTENT")
+        fmt.Println("usage: go-base run client2.go-base YOUR_CONTENT")
         return
     }
     log.Println("begin dial...")
@@ -285,7 +285,7 @@ func main() {
 ```
 Server端：
 ```go
-//go-tcpsock/read_write/server2.go
+//go-base-tcpsock/read_write/server2.go-base
 ... ...
 func handleConn(c net.Conn) {
     defer c.Close()
@@ -360,7 +360,7 @@ $go run server3.go
 ### 5、读取操作超时
 有些场合对Read的阻塞时间有严格限制，在这种情况下，Read的行为到底是什么样的呢？在返回超时错误时，是否也同时Read了一部分数据了呢？这个实验比较难于模拟，下面的测试结果也未必能反映出所有可能结果。我们编写了client4.go和server4.go来模拟这一情形。
 ```go
-//go-tcpsock/read_write/client4.go
+//go-base-tcpsock/read_write/client4.go-base
 ... ...
 func main() {
     log.Println("begin dial...")
@@ -378,7 +378,7 @@ func main() {
     time.Sleep(time.Second * 10000)
 }
 
-//go-tcpsock/read_write/server4.go
+//go-base-tcpsock/read_write/server4.go-base
 ... ...
 func handleConn(c net.Conn) {
     defer c.Close()
@@ -420,7 +420,7 @@ $go run server4.go
 ### 2、写阻塞
 TCP连接通信两端的OS都会为该连接保留数据缓冲，一端调用Write后，实际上数据是写入到OS的协议栈的数据缓冲的。TCP是全双工通信，因此每个方向都有独立的数据缓冲。当发送方将对方的接收缓冲区以及自身的发送缓冲区写满后，Write就会阻塞。我们来看一个例子：client5.go和server.go。
 ```go
-//go-tcpsock/read_write/client5.go
+//go-base-tcpsock/read_write/client5.go-base
 ... ...
 func main() {
     log.Println("begin dial...")
@@ -449,7 +449,7 @@ func main() {
     time.Sleep(time.Second * 10000)
 }
 
-//go-tcpsock/read_write/server5.go
+//go-base-tcpsock/read_write/server5.go-base
 ... ...
 func handleConn(c net.Conn) {
     defer c.Close()
@@ -665,7 +665,7 @@ tcpConn.SetNoDelay(true)
 # 五、关闭连接
 和前面的方法相比，关闭连接算是最简单的操作了。由于socket是全双工的，client和server端在己方已关闭的socket和对方关闭的socket上操作的结果有不同。看下面例子：
 ```go
-//go-tcpsock/conn_close/client1.go
+//go-base-tcpsock/conn_close/client1.go-base
 ... ...
 func main() {
     log.Println("begin dial...")
@@ -695,7 +695,7 @@ func main() {
     time.Sleep(time.Second * 1000)
 }
 
-//go-tcpsock/conn_close/server1.go
+//go-base-tcpsock/conn_close/server1.go-base
 ... ...
 func handleConn(c net.Conn) {
     defer c.Close()

@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	// go 语言的小数默认都是float64类型
+	// go-base 语言的小数默认都是float64类型
 	f1 := 1.2345
 	fmt.Println(f1)
 	// 显示的声明float32类型

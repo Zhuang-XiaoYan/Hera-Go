@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// go 语言的变量必须先声明才能使用
+// go-base 语言的变量必须先声明才能使用
 
 // 声明为全局变量 可以不引用不会报错
 var name string
