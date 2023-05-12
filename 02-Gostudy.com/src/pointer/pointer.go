@@ -2,7 +2,8 @@ package main
 
 import "fmt"
 
-func main() {
+// 大写表示public 方法 小写是private 方法
+func PointDemo() {
 	// &取地址
 	// *：表示的是根据地址取值
 	n := 18
@@ -18,6 +19,8 @@ func main() {
 	c := *b // 指针取值（根据指针去内存取值）
 	fmt.Printf("type of c:%T\n", c)
 	fmt.Printf("value of c:%v\n", c)
+}
+func main() {
 
 	// 执行上面的代码会引发panic，为什么呢？ 在Go语言中对于引用类型的变量，我们在使用的时候不仅要声明它，
 	// 还要为它分配内存空间，否则我们的值就没办法存储。而对于值类型的声明不需要分配内存空间，

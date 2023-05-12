@@ -55,4 +55,5 @@ func main() {
 	b[0] = 1000
 	fmt.Println(a) //[1000 2 3 4 5]
 	fmt.Println(b) //[1000 2 3 4 5]
+
 }

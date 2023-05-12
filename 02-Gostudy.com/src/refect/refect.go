@@ -45,6 +45,7 @@ func reflectSetValue1(x interface{}) {
 		v.SetInt(200) //修改的是副本，reflect包会引发panic
 	}
 }
+
 func reflectSetValue2(x interface{}) {
 	v := reflect.ValueOf(x)
 	// 反射中使用 Elem()方法获取指针对应的值
