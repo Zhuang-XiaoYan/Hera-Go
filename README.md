@@ -1,24 +1,19 @@
 # <h1 align="center"> GO语言——未来服务器端编程语言 </h1> 
 
-本仓库主要介绍go语言相关的学习笔记和go服务端项目，同时包括了云原生的开发共工作与项目
+<h3>本仓库主要介绍go语言相关的学习笔记和go服务端项目，同时包括了云原生的开发共工作与项目</h3>
 
 ---
-
-> 其他平台将同步更新
-> - [Github] https://github.com/2462612540
-> - [Gitee] https://gitee.com/xjl2462612540
-> - [CSDN] https://blog.csdn.net/weixin_41605937?spm=1001.2014.3001.5343
-> - [雀语] https://www.yuque.com/zhuangxiaoyan/kgkvky/igxzid
+其他平台将同步更新
+- [Github] https://github.com/2462612540
+- [Gitee] https://gitee.com/xjl2462612540
+- [CSDN] https://blog.csdn.net/weixin_41605937?spm=1001.2014.3001.5343
+- [雀语] https://www.yuque.com/zhuangxiaoyan/kgkvky/igxzid
 
 ---
-
 # 一、Xmind
 
----
-
 
 ---
-
 # 五、博文引用
 - [Go语法学习教程](https://www.cnblogs.com/liwenzhou/p/12037432.html)
 
