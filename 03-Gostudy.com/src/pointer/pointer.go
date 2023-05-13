@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+// make也是用于内存分配的，区别于new，它只用于slice、map以及channel的内存创建，而且它返回的类型就是这三个类型本身，而不是他们的指针类型，因为这三种类型就是引用类型，所以就没有必要返回他们的指针了。
+// new和make都是用于申请内存的
+// new 很少用 一般是用于基本类型数据的申请内存 string int 返回值都是对应的类型的指针(*string *int)
+// make 是用于slice map chan申请内存的 make函数返回的都是对应的这三个类型的本身
+
 // 大写表示public 方法 小写是private 方法
 func PointDemo() {
 	// &取地址
@@ -45,10 +50,7 @@ func main() {
 	var s3 = new(int)
 	fmt.Println(s3)
 	fmt.Println("--------------------------------------------")
-	// make也是用于内存分配的，区别于new，它只用于slice、map以及channel的内存创建，而且它返回的类型就是这三个类型本身，而不是他们的指针类型，因为这三种类型就是引用类型，所以就没有必要返回他们的指针了。
-	// new和make都是用于申请内存的
-	// new 很少用 一般是用于基本类型数据的申请内存 string int 返回值都是对应的类型的指针(*string *int)
-	// make 是用于slice map chan申请内存的 make函数返回的都是对应的这三个类型的本身
+
 	var b2 map[string]int
 	b2 = make(map[string]int, 10)
 	b2["沙河娜扎"] = 100

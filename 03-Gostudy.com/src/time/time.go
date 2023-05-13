@@ -7,15 +7,15 @@ import (
 
 // timeDemo 时间对象的年月日时分秒
 func timeDemo() {
-	now := time.Now() // 获取当前时间
-	fmt.Printf("current time:%v\n", now)
+	timeobj := time.Now() // 获取当前时间
+	fmt.Printf("current time:%v\n", timeobj)
 
-	year := now.Year()     // 年
-	month := now.Month()   // 月
-	day := now.Day()       // 日
-	hour := now.Hour()     // 小时
-	minute := now.Minute() // 分钟
-	second := now.Second() // 秒
+	year := timeobj.Year()     // 年
+	month := timeobj.Month()   // 月
+	day := timeobj.Day()       // 日
+	hour := timeobj.Hour()     // 小时
+	minute := timeobj.Minute() // 分钟
+	second := timeobj.Second() // 秒
 	fmt.Println(year, month, day, hour, minute, second)
 }
 func timezoneDemo() {
