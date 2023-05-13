@@ -114,8 +114,34 @@ func add(x, y int) int {
 	return x + y
 }
 
+// 自定义一个方法类型
+type calcType func(int, int) int
+
+// 在函数中传递使用一个自定义类型参数
+func calcNew(x, y int, cb calcType) int {
+	return cb(x, y)
+}
+
 func sub(x, y int) int {
 	return x - y
+}
+
+type cala func(int, int) int
+
+func do(o string) cala {
+	switch o {
+	case "+":
+		return add
+	case "-":
+		return sub
+	case "*":
+		// 使用了匿名函数类型
+		return func(x int, y int) int {
+			return x * y
+		}
+	default:
+		return nil
+	}
 }
 
 func SortIntAsc(slice []int) []int {
@@ -158,7 +184,24 @@ func mapSortAsc(map1 map[string]string) string {
 	return str
 }
 
+func fn1(n int) {
+	if n == 0 {
+		return
+	}
+	fmt.Println(n)
+	n--
+	// 函数的递归调用
+	fn1(n)
+}
+
 func main() {
+
+	fn1(10)
+
+	// 匿名函数自执行…………
+	func() {
+		fmt.Println("匿名函数自执行…………")
+	}()
 
 	var sliceA = []int{13, 15, 17, 19, 10}
 
