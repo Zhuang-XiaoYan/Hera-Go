@@ -1,4 +1,4 @@
-package itying
+package index
 
 import (
 	"net/http"

@@ -20,16 +20,13 @@ func (con UserController) Add(c *gin.Context) {
 }
 func (con UserController) DoUpload(c *gin.Context) {
 	username := c.PostForm("username")
-
 	form, _ := c.MultipartForm()
 	files := form.File["face[]"]
-
 	for _, file := range files {
 		dst := path.Join("./static/upload", file.Filename)
 		// 上传文件至指定目录
 		c.SaveUploadedFile(file, dst)
 	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"success":  true,
 		"username": username,

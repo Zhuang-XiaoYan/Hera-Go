@@ -13,5 +13,4 @@ func ApiRoutersInit(r *gin.Engine) {
 		apiRouters.GET("/userlist", api.ApiController{}.Userlist)
 		apiRouters.GET("/plist", api.ApiController{}.Plist)
 	}
-
 }

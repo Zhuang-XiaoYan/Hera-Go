@@ -1,5 +1,4 @@
 {{ define "admin/useradd.html" }}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,15 +9,9 @@
 </head>
 <body>
 <h2>演示文件上传</h2>
-
 <form action="/admin/user/doUpload" enctype="multipart/form-data" method="post">
-
-    用户名:<input name="username" placeholder="用户名" type="text"/>
-    <br>
-    <br>
-    头 像<input name="face" type="file"/>
-    <br> <br>
-
+    用户名:<input name="username" placeholder="用户名" type="text"/><br>
+    头 像<input name="face" type="file"/><br>
     <input type="submit" value="提交">
 </form>
 </body>

@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"gindemo08/controllers/itying"
+	"gindemo08/controllers/index"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +9,7 @@ import (
 func DefaultRoutersInit(r *gin.Engine) {
 	defaultRouters := r.Group("/")
 	{
-		defaultRouters.GET("/", itying.DefaultController{}.Index)
-		defaultRouters.GET("/news", itying.DefaultController{}.News)
+		defaultRouters.GET("/", index.DefaultController{}.Index)
+		defaultRouters.GET("/news", index.DefaultController{}.News)
 	}
 }

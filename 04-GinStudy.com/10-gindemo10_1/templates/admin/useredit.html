@@ -1,5 +1,4 @@
 {{ define "admin/useredit.html" }}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,17 +11,9 @@
 <h2>演示-不同名字的多个文件上传</h2>
 
 <form action="/admin/user/doEdit" enctype="multipart/form-data" method="post">
-
-    用户名:<input name="username" placeholder="用户名" type="text"/>
-    <br>
-    <br>
-    头 像1:<input name="face1" type="file"/>
-    <br>
-    <br>
-    头 像2:<input name="face2" type="file"/>
-    <br>
-    <br>
-
+    用户名:<input name="username" placeholder="用户名" type="text"/><br>
+    头 像1:<input name="face1" type="file"/><br>
+    头 像2:<input name="face2" type="file"/><br>
     <input type="submit" value="提交">
 </form>
 </body>

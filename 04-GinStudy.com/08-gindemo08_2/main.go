@@ -14,21 +14,20 @@ func UnixToTime(timestamp int) string {
 	t := time.Unix(int64(timestamp), 0)
 	return t.Format("2006-01-02 15:04:05")
 }
+
+// 多个中间件的执行流程是一个嵌套的过程
 func initMiddlewareOne(c *gin.Context) {
 
 	fmt.Println("1-我是一个中间件-initMiddlewareOne")
-	//调用该请求的剩余处理程序
+	// 停止调用的路由的中的请求程序
 	c.Next()
-
 	fmt.Println("2-我是一个中间件-initMiddlewareOne")
 
 }
 func initMiddlewareTwo(c *gin.Context) {
-
 	fmt.Println("1-我是一个中间件-initMiddlewareTwo")
 	//调用该请求的剩余处理程序
 	c.Next()
-
 	fmt.Println("2-我是一个中间件-initMiddlewareTwo")
 
 }

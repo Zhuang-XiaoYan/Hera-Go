@@ -34,38 +34,30 @@ func (con UserController) DoUpload(c *gin.Context) {
 	username := c.PostForm("username")
 	// 1、获取上传的文件
 	file, err := c.FormFile("face")
-
 	if err == nil {
 		// 2、获取后缀名 判断类型是否正确  .jpg .png .gif .jpeg
 		extName := path.Ext(file.Filename)
-
 		allowExtMap := map[string]bool{
 			".jpg":  true,
 			".png":  true,
 			".gif":  true,
 			".jpeg": true,
 		}
-
 		if _, ok := allowExtMap[extName]; !ok {
 			c.String(200, "上传的文件类型不合法")
 			return
 		}
-
 		// 3、创建图片保存目录  static/upload/20210624
-
 		day := models.GetDay()
 		dir := "./static/upload/" + day
-
 		err := os.MkdirAll(dir, 0666)
 		if err != nil {
 			fmt.Println(err)
 			c.String(200, "MkdirAll失败")
 			return
 		}
-
 		// 4、生成文件名称和文件保存的目录   111111111111.jpeg
 		fileName := strconv.FormatInt(models.GetUnix(), 10) + extName
-
 		// 5、执行上传
 		dst := path.Join(dir, fileName)
 		c.SaveUploadedFile(file, dst)

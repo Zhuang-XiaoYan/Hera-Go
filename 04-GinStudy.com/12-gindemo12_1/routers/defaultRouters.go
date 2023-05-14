@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"gindemo12/controllers/itying"
+	"gindemo12/controllers/index"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,10 +9,10 @@ import (
 func DefaultRoutersInit(r *gin.Engine) {
 	defaultRouters := r.Group("/")
 	{
-		defaultRouters.GET("/", itying.DefaultController{}.Index)
-		defaultRouters.GET("/news", itying.DefaultController{}.News)
-		defaultRouters.GET("/shop", itying.DefaultController{}.Shop)
-		defaultRouters.GET("/deleteCookie", itying.DefaultController{}.DeleteCookie)
+		defaultRouters.GET("/", index.DefaultController{}.Index)
+		defaultRouters.GET("/news", index.DefaultController{}.News)
+		defaultRouters.GET("/shop", index.DefaultController{}.Shop)
+		defaultRouters.GET("/deleteCookie", index.DefaultController{}.DeleteCookie)
 
 	}
 }

@@ -108,7 +108,8 @@ func main() {
 	//获取 Post Xml 数据
 	r.POST("/xml", func(c *gin.Context) {
 		article := &Article{}
-		xmlSliceData, _ := c.GetRawData() //获取 c.Request.Body 读取请求数据
+		//获取 c.Request.Body 读取请求数据
+		xmlSliceData, _ := c.GetRawData()
 		fmt.Println(xmlSliceData)
 		if err := xml.Unmarshal(xmlSliceData, &article); err == nil {
 			c.JSON(http.StatusOK, article)
@@ -119,9 +120,9 @@ func main() {
 		}
 	})
 
-	// 动态路由传值
 	//  list/123          list/456
 	r.GET("/list/:cid", func(c *gin.Context) {
+		// 动态路由传值
 		cid := c.Param("cid")
 		c.String(200, "%v", cid)
 	})

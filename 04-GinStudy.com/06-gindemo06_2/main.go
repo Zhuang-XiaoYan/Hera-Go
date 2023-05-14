@@ -28,6 +28,7 @@ func main() {
 	//配置静态web目录   第一个参数表示路由, 第二个参数表示映射的目录
 	r.Static("/static", "./static")
 
+	// 应用其他的文件routers
 	routers.AdminRoutersInit(r)
 
 	routers.ApiRoutersInit(r)
