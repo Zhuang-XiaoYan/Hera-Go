@@ -12,10 +12,8 @@ func (con DefaultController) Index(c *gin.Context) {
 	//设置cookie
 	//3600表示的是秒
 	c.SetCookie("username", "张三", 3600, "/", "localhost", false, true)
-
 	//过期时间延时
 	c.SetCookie("hobby", "吃饭 睡觉", 5, "/", "localhost", false, true)
-
 	c.HTML(http.StatusOK, "default/index.html", gin.H{
 		"msg": "我是一个msg",
 		"t":   1629788418,
