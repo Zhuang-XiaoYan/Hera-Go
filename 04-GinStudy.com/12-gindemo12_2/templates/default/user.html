@@ -1,0 +1,23 @@
+<!-- 相当于给模板定义一个名字 define end 成对出现-->
+{{ define "default/user.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Document</title>
+    <link href="static/css/base.css" rel="stylesheet">
+</head>
+<body>
+<form action="/doAddUser2" method="post">
+
+    用户名:<input name="username" type="text"/> <br><br>
+    密码:<input name="password" type="password"/> <br><br>
+
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
+
+{{end}}

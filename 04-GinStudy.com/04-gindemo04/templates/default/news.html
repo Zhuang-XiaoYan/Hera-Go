@@ -1,0 +1,31 @@
+<!-- 相当于给模板定义一个名字 define end 成对出现-->
+{{ define "default/news.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Document</title>
+    <link href="static/css/base.css" rel="stylesheet">
+</head>
+<body>
+{{template "public/page_header.html" .}}
+
+<h2>{{.title}}</h2>
+
+<p>
+    {{.news.Title}}
+</p>
+<p>
+    {{.news.Content}}
+</p>
+
+<br>
+<br>
+
+{{template "public/page_footer.html" .}}
+</body>
+</html>
+
+{{end}}
