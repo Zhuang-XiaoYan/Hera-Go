@@ -21,6 +21,7 @@ func printBook(book Books) {
 	fmt.Printf("Book book_id : %d\n", book.book_id)
 }
 
+// 小写表示的私有的类型 其他的不能访问和使用 如果是大写的，那就是外面的也是可以访问。
 type person struct {
 	name   string
 	gender string
@@ -53,6 +54,38 @@ type x struct {
 }
 
 func main() {
+	fmt.Println("---------------------------结构体的实例化-----------------------------")
+	var per person // 有点类似与java 中的Person per=new Person()的意思。
+	fmt.Printf("per 的类型是：%T\n", per)
+
+	var pers = new(person) // 实例化类的对象
+	pers.name = "炸弹那三"     // (*pers).name="xiaoyan" 等价
+	(*pers).name = "xiaoyan"
+	fmt.Printf("%v", pers)
+
+	// 实例化类的对象一种方法
+	var p3 = &person{}
+	p3.name = "zhangsan"
+	p3.gender = "hahha"
+	fmt.Printf((*p3).name) // p3.name
+
+	p4 := person{
+		name:   "hah",
+		gender: "女",
+	}
+	fmt.Printf("%v", p4)
+
+	p5 := &person{
+		name:   "hah2",
+		gender: "女",
+	}
+	fmt.Printf("%v", p5)
+
+	p6 := &person{
+		name: "hah3",
+	}
+	fmt.Printf("%v", p6)
+
 	fmt.Println("---------------------------结构体的初始化-----------------------------")
 	// 创建一个新的结构体
 	fmt.Println(Books{"Go 语言", "www.runoob.com", "Go 语言教程", 6495407})
@@ -89,7 +122,7 @@ func main() {
 	fmt.Printf("Book 2 author : %s\n", Book2.author)
 	fmt.Printf("Book 2 subject : %s\n", Book2.subject)
 	fmt.Printf("Book 2 book_id : %d\n", Book2.book_id)
-	fmt.Println("-------------------------结构体作为函数参数-------------------------------")
+	fmt.Println("-------------------------结构体作为函数参数--------------------------")
 	/* 打印 Book1 信息 */
 	printBook(Book1)
 
@@ -105,7 +138,7 @@ func main() {
 	s.age = 10
 	fmt.Println(s.name, " ", s.age)
 	fmt.Printf("%T\n", s)
-	fmt.Println("-------------------------指针类型的结构体-------------------------------")
+	fmt.Println("-------------------------指针类型的结构体---------------------------")
 
 	var p person
 	p.name = "zhuangxiaoyan"
@@ -120,7 +153,7 @@ func main() {
 	fmt.Printf("%T\n", p2)    //*main.person
 	fmt.Printf("p2=%p\n", p2) //p2=&main.person{name:"", city:"", age:0}
 
-	fmt.Println("----------------------内存空间-------------------------------------------")
+	fmt.Println("----------------------内存空间-------------------------------------")
 	m := x{
 		a: int8(10),
 		b: int8(20),
