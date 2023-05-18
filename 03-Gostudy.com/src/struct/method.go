@@ -37,7 +37,7 @@ func (d *dog) wang2() {
 // 需要修改接收者中的值
 // 接收者是拷贝代价比较大的大对象
 // 保证一致性，如果有某个方法使用了指针接收者，那么其他的方法也应该使用指针接收者。
-type Person struct {
+type Person2 struct {
 	Name string
 	Age  int
 	Sex  string
@@ -45,7 +45,7 @@ type Person struct {
 
 func main() {
 
-	var p1 = Person{
+	var p1 = Person2{
 		Name: "李四",
 		Age:  20,
 		Sex:  "男",

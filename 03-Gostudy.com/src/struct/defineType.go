@@ -20,7 +20,30 @@ func (my myIntFunction) hello() {
 	fmt.Println("我是一个myIntdefin")
 }
 
+type Person struct {
+	Name  string
+	Age   int
+	Hobby []string
+	Map1  map[string]string
+}
+
 func main() {
+
+	var p Person
+	p.Name = "xiaoyan"
+	p.Age = 20
+	p.Hobby = make([]string, 3, 6)
+	p.Hobby[0] = "java"
+	p.Hobby[1] = "goland"
+	p.Hobby[2] = "python"
+
+	p.Map1 = make(map[string]string)
+	p.Map1["test"] = "背景"
+	p.Map1["address"] = "上海"
+	p.Map1["phone"] = "13878786390"
+
+	fmt.Printf("%#v", p)
+
 	var n myInt
 	n = 100
 	var m youInt
