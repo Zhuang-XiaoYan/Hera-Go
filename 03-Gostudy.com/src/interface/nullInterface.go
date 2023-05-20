@@ -36,7 +36,42 @@ func justifyType(x interface{}) {
 type A interface {
 }
 
+type Address struct {
+	Name  string
+	Phone int
+}
+
 func main() {
+
+	var userData = make(map[string]interface{})
+
+	userData["name"] = "张三"
+	userData["age"] = 20
+	userData["hobby"] = []string{"java", "go", "python"}
+
+	fmt.Println(userData["name"])
+	fmt.Println(userData["age"])
+	fmt.Println(userData["hobby"])
+
+	// fmt.Println(userData["hobby"][1]) 注意：空接口不支持索引获取值
+
+	hobby2, _ := userData["hobby"].([]string) // 表示hobby2=[]string{"java", "go", "python"}
+	fmt.Println(hobby2[1])                    // 获取第1号的位置的值
+
+	fmt.Println("--------------------------------------------------------------------------------------------------")
+
+	var address = Address{
+		Name:  "wangwu",
+		Phone: 192322442,
+	}
+	userData["address ="] = address
+
+	fmt.Println(userData["address"])
+
+	address3, _ := userData["address"].(Address) // 表示address3=var address = Address{ Name:  "wangwu",	Phone: 192322442,}
+	fmt.Println(address3.Name)
+
+	fmt.Println("--------------------------------------------------------------------------------------------------")
 
 	var m1 map[string]interface{}
 
