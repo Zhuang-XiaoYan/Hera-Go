@@ -161,7 +161,7 @@ func CopyFile(dstName, srcName string) (written int64, err error) {
 }
 
 func main() {
-	// var path = "D:\\gitee\\Hera-Go\\src\\log\\log.go-base"
+	// var path = "D:\\gitee\\Hera-Go\\src\\log\\logDemo.go-base"
 	// baseReadFile(path)
 	//fmt.Println("-----------------------11-----------------------------")
 	//readFileByIoutil(path)

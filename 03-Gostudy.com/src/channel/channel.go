@@ -10,9 +10,9 @@ var b chan int // 需要制定通道中的元素的类型
 
 // 通道必须使用make函数来才能初始化 才能使用
 // 通道共有
-//发送（send）  ch <- 10 // 把10发送到ch中
-//接收(receive）  x := <- ch // 从ch中接收值并赋值给变量x   <-ch // 从ch中接收值，忽略结果
-//关闭（close）  close(ch)
+// 发送（send）  ch <- 10 // 把10发送到ch中
+// 接收(receive）  x := <- ch // 从ch中接收值并赋值给变量x   <-ch // 从ch中接收值，忽略结果
+// 关闭（close）  close(ch)
 
 var wg sync.WaitGroup
 var once sync.Once
@@ -48,6 +48,7 @@ func task1(ch1 chan int) {
 	}
 	close(ch1)
 }
+
 func task2(ch1, ch2 chan int) {
 	defer wg.Done()
 	for {
@@ -72,4 +73,12 @@ func main() {
 	for res := range b {
 		fmt.Println(res)
 	}
+
+	fmt.Println("---------------------------------------------")
+	chan2 := make(chan<- int, 2) // 表示只能写的管道
+	chan3 := make(<-chan int, 3) // 表示只能读的管道
+
+	fmt.Println(chan2)
+	fmt.Println(chan3)
+
 }

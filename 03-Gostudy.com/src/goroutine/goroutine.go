@@ -10,22 +10,18 @@ import (
 // 例如Go运行时会智能地将 m个goroutine 合理地分配给n个操作系统线程，实现类似m:n的调度机制，不再需要Go开发者自行在代码层面维护一个线程池。
 // Goroutine 是 Go 程序中最基本的并发执行单元。每一个 Go 程序都至少包含一个 goroutine——main goroutine，当 Go 程序启动时它会自动创建。
 
-func hello(i int) {
-	fmt.Println("hello", i)
+func test() {
+	for i := 0; i < 10; i++ {
+		fmt.Println("hello go")
+		time.Sleep(time.Millisecond * 100)
+	}
 }
 
 // 程序启动也会创建一盒Goroutine去执行
 func main() {
+	go test() // 表示开启一个协程
 	for i := 0; i < 10; i++ {
-		// 开启一个Goroutine去执行一个hello的函数任务。
-		// go-base hello(i)
-		// 如果没有传入i 该函数就是的用的外面的i 有可能导致的相同的输出
-		go func() {
-			fmt.Println(i)
-		}()
+		fmt.Println("你好 golang")
+		time.Sleep(time.Millisecond * 100)
 	}
-	fmt.Println("main")
-	time.Sleep(time.Second)
-
-	// main函数的结束后，有main函数启动的Goroutine也都结束了。
 }
