@@ -61,10 +61,12 @@ func main() {
 	go PinrtFunction(priChan)
 
 	wg1.Add(1)
+	// 匿名函数
 	go func() {
 		for i := 0; i < 16; i++ {
 			<-exitChan
 		}
+		// 关闭priChan
 		close(priChan)
 		defer wg1.Done()
 	}()
