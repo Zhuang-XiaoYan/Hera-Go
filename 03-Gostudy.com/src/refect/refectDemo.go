@@ -91,4 +91,6 @@ func main() {
 	// reflectSetValue1(a) //panic: reflect: reflect.Value.SetInt using unaddressable value
 	reflectSetValue2(&a2)
 	fmt.Println(a2)
+	fmt.Println("--------------------------------------------")
+
 }
