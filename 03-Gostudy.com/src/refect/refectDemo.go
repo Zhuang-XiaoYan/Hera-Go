@@ -10,9 +10,19 @@ import (
 // 支持反射的语言可以在程序编译期间将变量的反射信息，如字段名称、类型信息、结构体信息等整合到可执行文件中，并给程序提供接口访问反射信息，这样就可以在程序运行期间获取类型的反射信息，并且有能力修改它们。
 // Go程序在运行期间使用reflect包访问程序的反射信息。
 
+// 通过《值变量》执行方法 需要注意的是使用值变量 并且注意参数 V.Method(0).Call(nil) nil 表示不输入任务参数 或者使用V.MethodByName("函数名").Call(nil)
+// 执行方法传入参数 注意使用《值变量》 并且注意参数的传入 接收的参数是[] reflect.value的切片
+
 type person struct {
 	Name string `json:"name"`
 	Age  int    `json:"age"`
+}
+
+// 相当于是java中的类的方法写法
+func (p *person) SetPerson() {
+	fmt.Println("这个是的person的结构体的方法")
+	p.Name = "Sb"
+	p.Age = 30
 }
 
 func reflectType(x interface{}) {
@@ -52,6 +62,23 @@ func reflectSetValue2(x interface{}) {
 	if v.Elem().Kind() == reflect.Int64 {
 		v.Elem().SetInt(200)
 	}
+}
+
+// 反射修改结构属性
+func reflectChangeStruct(s interface{}) {
+	t := reflect.TypeOf(s)
+	if t.Kind() != reflect.Ptr {
+		fmt.Println("input type not ptr type")
+		return
+	} else if t.Elem().Kind() != reflect.Struct {
+		fmt.Println("input data type not struct ptr")
+	}
+	// update struct data
+	// name := t.Elem().FieldByName("Name")
+	// name.SetString("hahah")
+
+	//v := reflect.ValueOf(s)
+
 }
 
 func fun() {
